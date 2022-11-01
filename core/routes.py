@@ -37,3 +37,11 @@ def index():
 
     return render_template('index.html')
     
+@app.route('/<short_id>')
+def redirect_url(short_id):
+    link = ShortUrls.query.filter_by(short_id=short_id).first()
+    if link:
+        return redirect(link.original_url)
+    else:
+        flash('Invalid URL')
+        return redirect(url_for('index'))
